@@ -27,6 +27,8 @@ bin/
 .idea/tasks.xml
 .idea/material_theme_project_new.xml
 .idea/**
+.idea/*.xml
+.idea/*.iml
 
 # AWS User-specific
 .idea/**/aws.xml
