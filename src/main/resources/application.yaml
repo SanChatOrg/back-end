@@ -36,7 +36,7 @@ spring:
 
 # MyBatis Mapper
 mybatis:
-  mapper-locations: classpath:/mapper/*.xml
+  mapper-locations: classpath:mapper/**/*.xml
   # Aliasses location
   type-aliases-package: com.sanchat.api.dto
   # Camel Option
