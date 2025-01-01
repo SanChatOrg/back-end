@@ -1,0 +1,10 @@
+create table user (
+    user_no bigint primary key not null auto_increment,
+    user_name varchar(50) not null,
+    user_birth date not null,
+    user_id varchar(50) not null,
+    user_pw varchar(255) not null ,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
+    user_intro text
+);
