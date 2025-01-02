@@ -22,7 +22,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
-    url: jdbc:mysql://localhost:${DATASOURCE_PORT}/${DATASOURCE_NAME}?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      
+    url: jdbc:mysql://localhost:${DATASOURCE_PORT}/${DATASOURCE_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
 
@@ -36,7 +37,7 @@ spring:
 
 # MyBatis Mapper
 mybatis:
-  mapper-locations: classpath:/mapper/*.xml
+  mapper-locations: classpath:mapper/**/*.xml
   # Aliasses location
   type-aliases-package: com.sanchat.api.dto
   # Camel Option
