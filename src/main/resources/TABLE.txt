@@ -1,0 +1,47 @@
+create table user (
+    user_no bigint primary key not null auto_increment,
+    user_name varchar(50) not null,
+    user_birth date not null,
+    user_id varchar(50) not null,
+    user_pw varchar(255) not null ,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
+    user_intro text
+);
+
+create table walk (
+    walk_no bigint primary key auto_increment,
+    walk_time time,
+    walk_distance float,
+    walk_date date
+);
+
+-- 채팅 테이블
+drop table if exists chat_participant;
+create table chat_participant (
+    chat_part_no bigint primary key not null auto_increment,
+    user_no bigint not null,
+    chat_room_no bigint not null,
+    joined_at timestamp default current_timestamp,
+    unique(chat_room_no, user_no)
+);
+
+drop table if exists chat_room;
+create table chat_room (
+	chat_room_no bigint primary key not null auto_increment,
+    chat_room_name varchar(50),
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
+    is_group_chat boolean default FALSE
+);
+
+drop table if exists chat_message;
+create table chat_message (
+	chat_message_no bigint primary key not null auto_increment,
+    message_type enum('ENTER', 'CHAT', 'EXIT') not null,
+    message_content text,
+    sent_at timestamp default current_timestamp,
+	user_no bigint not null,
+    message_content_type enum('TEXT', 'IMAGE', 'VIDEO', 'FILE') not null,
+    chat_room_no bigint not null
+);
