@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,4 +21,5 @@ public class UserDTO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String userIntro;
+    private List<DogDTO> dogList;
 }

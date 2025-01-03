@@ -45,3 +45,16 @@ create table chat_message (
     message_content_type enum('TEXT', 'IMAGE', 'VIDEO', 'FILE') not null,
     chat_room_no bigint not null
 );
+
+create table dog
+(
+    dog_no     bigint primary key auto_increment,
+    dog_name  varchar(50)  not null,
+    dog_breed varchar(50) not null,
+    dog_gender char(1) not null,
+    birth_date date         not null,
+    is_neutered boolean,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
+    user_no bigint not null
+);

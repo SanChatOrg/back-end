@@ -15,4 +15,9 @@ public class UserServiceImpl implements UserService {
     public void createUser(UserDTO userDTO) {
         userMapper.createUser(userDTO);
     }
+
+    @Override
+    public UserDTO getUser(Long userNo) {
+        return userMapper.getUser(userNo);
+    }
 }
