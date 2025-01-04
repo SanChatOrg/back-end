@@ -5,6 +5,7 @@
 
     <resultMap id="userAndDogsResultMap" type="UserDTO">
         <id property="userNo" column="user_no"/>
+        <result property="userId" column="user_id"/>
         <result property="userName" column="user_name"/>
         <result property="userIntro" column="user_intro"/>
         <association property="photo" javaType="PhotoDTO">
@@ -28,7 +29,7 @@
     </resultMap>
 
     <select id="getUser" resultMap="userAndDogsResultMap" parameterType="Long">
-        select u.user_no, u.user_name, u.user_intro, d.*, p2.*
+        select u.user_no, u.user_id, u.user_name, u.user_intro, d.*, p2.*
         from user u
                  left join
              (select dog.user_no, dog.dog_no, dog.dog_name, p.*
