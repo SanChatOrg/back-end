@@ -21,4 +21,5 @@ public class DogDTO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private Long userNo;
+    private PhotoDTO photo;
 }

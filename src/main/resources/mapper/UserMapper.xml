@@ -6,8 +6,11 @@
     <resultMap id="userAndDogsResultMap" type="UserDTO">
         <id property="userNo" column="user_no"/>
         <result property="userName" column="user_name"/>
-        <result property="userBirth" column="user_birth"/>
         <result property="userIntro" column="user_intro"/>
+        <association property="photo" javaType="PhotoDTO">
+            <id property="photoNo" column="photo_no" />
+            <result property="photoUrl" column="photo_url"/>
+        </association>
         <collection property="dogList" resultMap="dogMap"/>
     </resultMap>
 
@@ -18,9 +21,26 @@
         <result property="dogGender" column="dog_gender"/>
         <result property="birthDate" column="birth_date"/>
         <result property="isNeutered" column="is_neutered"/>
+        <association property="photo" javaType="PhotoDTO">
+            <id property="photoNo" column="photo_no" />
+            <result property="photoUrl" column="photo_url"/>
+        </association>
     </resultMap>
 
     <select id="getUser" resultMap="userAndDogsResultMap" parameterType="Long">
-        select * from user u left join dog d on u.user_no=d.user_no where u.user_no=#{userNo};
+        select u.user_no, u.user_name, u.user_intro, d.*, p2.*
+        from user u
+                 left join
+             (select dog.user_no, dog.dog_no, dog.dog_name, p.*
+              from dog
+                       left join
+                   photo p
+                   on
+                       dog.dog_no = p.related_entity_id) as d
+             on u.user_no = d.user_no
+                 left join
+             photo p2
+        on u.user_no=p2.related_entity_id
+        where u.user_no = #{userNo}
     </select>
 </mapper>

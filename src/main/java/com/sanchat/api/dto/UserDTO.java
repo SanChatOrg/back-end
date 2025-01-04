@@ -21,5 +21,6 @@ public class UserDTO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String userIntro;
+    private PhotoDTO photo;
     private List<DogDTO> dogList;
 }
