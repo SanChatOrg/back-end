@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sanchat.api.mapper.WalkMapper">
+    <insert id="walkRegist" parameterType="com.sanchat.api.dto.WalkDTO">
+        INSERT INTO walk (walk_time_start, walk_time_end, walk_distance, walk_date)
+        VALUES(#{walkTimeStart}, #{walkTimeEnd}, #{walkDistance}, #{walkDate});
+    </insert>
+</mapper>

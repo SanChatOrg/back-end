@@ -1,7 +1,9 @@
 package com.sanchat.api.config;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import ch.qos.logback.core.net.server.Client;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import lombok.Builder;
 import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -41,8 +43,20 @@ public class MapWebSocketHandler extends TextWebSocketHandler {
         String name = jsonObject.getString("name");
         String latitude = jsonObject.getString("latitude");
         String longitude = jsonObject.getString("longitude");
+        String type = jsonObject.getString("type");
 
-        System.out.println(id +" :: " + name + " 님의 위치 정보 | " +latitude + " | " +longitude);
+        System.out.println(id +" :: " + name + " 님의 위치 정보 | " +latitude + " | " +longitude + type );
+
+
+        switch(type) {
+            case "CLOSE" :
+                CLIENTS.remove(session.getId());
+                System.out.println(id + " :: 접속 종료");
+                break;
+            default:
+                break;
+        }
+
 
 
         CLIENTS.entrySet().forEach( arg->{

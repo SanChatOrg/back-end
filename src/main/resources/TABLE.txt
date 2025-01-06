@@ -8,3 +8,11 @@ create table user (
     updated_at timestamp default current_timestamp,
     user_intro text
 );
+
+CREATE TABLE walk (
+    walk_no INT AUTO_INCREMENT PRIMARY KEY,
+    walk_time_start TIME NOT NULL,
+    walk_time_end TIME NOT NULL,
+    walk_distance FLOAT NOT NULL,
+    walk_date DATE NOT NULL
+);

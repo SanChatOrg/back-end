@@ -17,6 +17,9 @@ public class MapController {
         System.out.println("react 에서 받아온 데이터" + data);
     }
 
+
+
+
 //    @GetMapping("...")
 //    public CustomResponseEntity<List<ContentDto.mapListContent>> myMapList(
 //            @RequestParam final Double x,
