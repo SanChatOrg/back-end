@@ -1,13 +1,21 @@
 package com.sanchat.api.dto;
 
 import lombok.*;
+import java.time.LocalDateTime;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
 @Builder
 public class CommunityDTO {
-    private int test;
+    private Long communityNo;
+    private String communityContent;
+    private String filePath;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private Long communityViewCount;
+    private Long communityLikeCount;
+    private Long communityReplyCount;
+    private String communityDeleted;
+    private Long userNo;
 }

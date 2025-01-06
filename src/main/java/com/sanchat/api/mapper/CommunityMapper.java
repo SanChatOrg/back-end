@@ -5,5 +5,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface CommunityMapper {
-    CommunityDTO selectTestCommunity();
+    void newPost(CommunityDTO communityDTO);
 }
