@@ -11,12 +11,5 @@ public interface UserMapper {
     @Options(useGeneratedKeys = true, keyProperty = "userNo")
     void createUser(@Param("user") UserDTO userDTO);
 
-    @Select("select * from user")
-    @Results(id = "userResultId", value = {
-            @Result(property = "userId", column = "user_id"),
-            @Result(property = "dogList", column="userNo", javaType = List.class, many = @Many(select="DogMapper.getDogs"))
-    })
-    List<UserDTO> getUserList();
-
     UserDTO getUser(Long userNo);
 }
