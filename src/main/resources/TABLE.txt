@@ -72,6 +72,7 @@ create table community (
     community_like_count bigint default 0,
     community_reply_count bigint default 0,
     community_deleted varchar(1) default 'n',
+    file_public_id varchar(255),
     user_no bigint not null
 );
 
