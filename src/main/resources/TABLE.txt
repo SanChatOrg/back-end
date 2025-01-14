@@ -9,12 +9,13 @@ create table user (
     user_intro text
 );
 
-create table walk (
-    walk_no bigint primary key auto_increment,
-    walk_time time,
-    walk_distance float,
-    walk_date date
-);
+-- 산책 테이블 
+CREATE TABLE walk (
+    walk_no INT AUTO_INCREMENT PRIMARY KEY,
+    walk_time_start TIME NOT NULL,
+    walk_time_end TIME NOT NULL,
+    walk_distance FLOAT NOT NULL,
+    walk_date DATE NOT NULL
 
 -- 채팅 테이블
 drop table if exists chat_participant;
@@ -111,4 +112,5 @@ CREATE TABLE Photo (
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 사진 등록일
                        related_type ENUM('USER', 'POST', 'CHAT', 'DOG') NOT NULL, -- 사진 연관 타입
                        related_entity_id BIGINT NOT NULL          -- 사진 연관 아이디
+
 );
