@@ -10,4 +10,5 @@ public interface WalkMapper {
 
     void walkRegist(WalkDTO dto);
     List<WalkDTO> walkList();
+    List<WalkDTO> getAllWalk();
 }

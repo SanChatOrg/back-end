@@ -1,5 +1,7 @@
 package com.sanchat.api.dto;
 
+import com.sanchat.api.enums.ChatMessageContentEnum;
+import com.sanchat.api.enums.ChatMessageEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,13 +15,11 @@ import java.time.LocalDateTime;
 @Builder
 public class ChatMessageDTO {
 
-    public enum MessageType {
-        ENTER, CHAT, EXIT
-    }
-
-    private MessageType messageType;
+    private Long chatMessageNo;
+    private ChatMessageEnum messageType;
+    private ChatMessageContentEnum messageContentType;
     private Long chatRoomNo;
     private Long userNo;
     private String messageContent;
-    private LocalDateTime sendAt;
+    private LocalDateTime sentAt;
 }

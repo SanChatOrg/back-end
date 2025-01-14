@@ -4,7 +4,6 @@ import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,15 +11,15 @@ import java.util.List;
 @Setter
 @ToString
 @Builder
-public class UserDTO {
-    private Long userNo;
-    private String userName;
-    private LocalDate userBirth;
-    private String userId;
-    private String userPw;
+public class DogDTO {
+    private Long dogNo;
+    private String dogName;
+    private String dogBreed;
+    private Character dogGender;
+    private LocalDate birthDate;
+    private Boolean isNeutered;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-    private String userIntro;
+    private Long userNo;
     private PhotoDTO photo;
-    private List<DogDTO> dogList;
 }

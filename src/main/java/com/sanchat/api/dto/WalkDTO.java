@@ -20,4 +20,5 @@ public class WalkDTO {
     private float walkDistance;
     private LocalDate walkDate;
 
+
 }

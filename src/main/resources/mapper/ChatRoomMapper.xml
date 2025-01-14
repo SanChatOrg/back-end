@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sanchat.api.mapper.ChatRoomMapper">
+
+    <select id="findAllByUserNo" parameterType="long" resultType="ChatRoomDTO">
+        select CR.chat_room_no, CR.chat_room_name, CR.created_at, CR.is_group_chat
+        from chat_room CR
+                 join chat_participant CP
+                      on CR.chat_room_no = CP.chat_room_no
+        where CP.user_no = #{userNo};
+    </select>
+
+    <insert id="save" parameterType="ChatRoomDTO" useGeneratedKeys="true" keyProperty="chatRoomNo">
+        insert into chat_room (chat_room_no, chat_room_name, is_group_chat)
+        values (#{chatRoomNo}, #{chatRoomName}, #{isGroupChat})
+        on duplicate key update
+                             chat_room_name = values(chat_room_name),
+                             is_group_chat = values(is_group_chat)
+    </insert>
+
+</mapper>
