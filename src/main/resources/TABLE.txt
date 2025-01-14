@@ -59,6 +59,50 @@ create table dog
     user_no bigint not null
 );
 
+-- 커뮤니티 테이블
+drop table if exists community;
+
+create table community (
+    community_no bigint primary key not null auto_increment,
+    community_content text not null,
+    file_path varchar(255) not null,
+    created_at datetime default current_timestamp,
+    updated_at datetime default current_timestamp on update current_timestamp,
+    community_view_count bigint default 0,
+    community_like_count bigint default 0,
+    community_reply_count bigint default 0,
+    community_deleted varchar(1) default 'n',
+    user_no bigint not null
+);
+
+
+-- 커뮤니티 좋아요
+drop table if exists community_like;
+create table community_like (
+    like_no bigint primary key not null auto_increment,
+    created_at timestamp null,
+    is_liked varchar(1) not null default 'n',
+    user_no bigint not null,
+    community_no bigint not null
+);
+
+-- 커뮤니티 댓글
+drop table if exists community_reply;
+create table community_reply (
+    reply_no bigint primary key not null auto_increment,
+    reply_content text null,
+    created_at timestamp null,
+    reply_parent_no bigint null,
+    community_no bigint not null
+);
+
+-- 해시태그
+drop table if exists hashtag;
+create table hashtag (
+    hashtag_no bigint primary key not null auto_increment,
+    hashtag_name varchar(255) null
+);
+
 CREATE TABLE Photo (
                        photo_no BIGINT AUTO_INCREMENT PRIMARY KEY, -- 사진 번호 (Primary Key)
                        photo_url VARCHAR(255) NOT NULL,           -- 사진 링크

@@ -2,7 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sanchat.api.mapper.CommunityMapper">
-    <select id="selectTestCommunity" resultType="com.sanchat.api.dto.CommunityDTO">
-        SELECT * FROM community_test;
-    </select>
+    <insert id="newPost" parameterType="com.sanchat.api.dto.CommunityDTO" useGeneratedKeys="true" keyProperty="communityNo">
+        insert into community (
+        community_content, file_path, created_at, updated_at, community_view_count, community_like_count, community_reply_count, community_deleted, user_no)
+        values (#{communityContent}, #{filePath}, current_timestamp, #{updatedAt}, #{communityViewCount}, #{communityLikeCount}, #{communityReplyCount}, #{communityDeleted}, 1);
+    </insert>
+
+<!--  글 수정 시 updateAt Update문 필요  -->
+
 </mapper>
