@@ -1,6 +1,7 @@
 package com.sanchat.api.dto;
 
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -11,6 +12,7 @@ public class CommunityDTO {
     private Long communityNo;
     private String communityContent;
     private String filePath;
+    private String filePublicId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Long communityViewCount;

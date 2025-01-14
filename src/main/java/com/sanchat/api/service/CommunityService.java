@@ -7,4 +7,8 @@ import java.io.IOException;
 
 public interface CommunityService {
     CommunityDTO newPost(String communityContent, MultipartFile file) throws IOException;
+
+    CommunityDTO getPost(Long communityNo);
+
+    CommunityDTO editPost(Long communityNo, String communityContent, MultipartFile file) throws IOException;
 }

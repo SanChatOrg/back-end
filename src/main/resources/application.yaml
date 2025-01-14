@@ -22,7 +22,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
-      
+
     url: jdbc:mysql://localhost:${DATASOURCE_PORT}/${DATASOURCE_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
@@ -34,6 +34,17 @@ spring:
     restart:
       enabled: true
 
+  # Cloudinary Settings
+  cloudinary:
+    cloud-name: ${CLOUD_NAME}
+    api-key: ${API_KEY}
+    api-secret: ${API_SECRET}
+
+  # File upload settings
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 # MyBatis Mapper
 mybatis:
@@ -44,9 +55,4 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
-# Cloudinary Settings
-  cloudinary:
-    cloud-name: ${CLOUD_NAME}
-    api-key: ${API_KEY}
-    api-secret: ${API_SECRET}
 
