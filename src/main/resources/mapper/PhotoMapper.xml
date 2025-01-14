@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sanchat.api.mapper.PhotoMapper">
+    <select id="getImageList" parameterType="map" resultType="PhotoDTO">
+        <if test='type.equals("dog")'>
+            select * from photo where related_entity_id=#{id} and related_type=#{type}
+        </if>
+        <if test='type == "user"'>
+            select * from photo where related_entity_id in
+                                (select dog_no from dog where user_no=#{id})
+        </if>
+    </select>
+</mapper>
