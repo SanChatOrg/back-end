@@ -219,3 +219,5 @@ Temporary Items
 ### macOS Patch ###
 # iCloud generated files
 *.icloud
+/.idea/dataSources.xml
+/.idea/sqldialects.xml
