@@ -13,19 +13,4 @@ import java.util.List;
 public class WalkServiceImpl implements WalkService {
     @Autowired
     private WalkMapper walkMapper;
-
-    @Override
-    public void insertWalk(WalkDTO walkDTO) {
-        walkMapper.insertWalk(walkDTO);
-    }
-
-    @Override
-    public void deleteWalk(Long walkNo) {
-        walkMapper.deleteWalk(walkNo);
-    }
-
-    @Override
-    public List<WalkDTO> getAllWalk() {
-        return walkMapper.getAllWalk();
-    }
 }
