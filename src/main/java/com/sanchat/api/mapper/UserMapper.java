@@ -11,5 +11,5 @@ public interface UserMapper {
     @Options(useGeneratedKeys = true, keyProperty = "userNo")
     void createUser(@Param("user") UserDTO userDTO);
 
-    UserDTO getUser(Long userNo);
+    UserDTO getUserProfileData(Long userNo);
 }

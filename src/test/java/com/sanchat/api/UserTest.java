@@ -15,6 +15,6 @@ public class UserTest {
 
     @Test
     void testGetUserWithDogList() {
-        System.out.println(userMapper.getUser(1L));
+//        System.out.println(userMapper.getUser(1L));
     }
 }

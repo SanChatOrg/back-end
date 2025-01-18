@@ -114,3 +114,10 @@ CREATE TABLE Photo (
                        related_entity_id BIGINT NOT NULL          -- 사진 연관 아이디
 
 );
+
+-- 팔로우 테이블
+create table Follow (
+	follow_no bigint primary key not null  auto_increment,
+    followee bigint not null,
+    follower bigint not null
+);

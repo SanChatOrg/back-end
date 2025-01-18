@@ -18,6 +18,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUser(Long userNo) {
-        return userMapper.getUser(userNo);
+        return userMapper.getUserProfileData(userNo);
     }
 }

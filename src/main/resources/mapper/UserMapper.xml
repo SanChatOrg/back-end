@@ -44,4 +44,17 @@
         on u.user_no=p2.related_entity_id
         where u.user_no = #{userNo}
     </select>
+
+    <select id="getUserProfileData" resultMap="userAndDogsResultMap" parameterType="Long">
+        select u.user_id, u.user_name, u.user_intro, dd.*
+        from user u
+        left join (select d.*, p.photo_url, p.photo_no
+                    from dog d
+                    left join photo p
+                    on p.related_entity_id = d.dog_no
+                    where p.related_type = 'DOG'
+                    AND d.user_no = 1) dd
+        on  u.user_no = dd.user_no
+        where u.user_no = #{userNo};
+    </select>
 </mapper>
