@@ -16,9 +16,18 @@
         SELECT
         u.*,
         CASE
-        WHEN u.user_no IN (SELECT followee_no FROM follow WHERE follower_no = 1) THEN true
+        WHEN u.user_no IN (SELECT followee_no FROM follow WHERE follower_no = #{userNo}) THEN true
         ELSE false
         END AS is_followed
-        FROM user u;
+        FROM user u
+        WHERE u.user_no IN (SELECT follower_no FROM follow WHERE followee_no = #{userNo}) ;
     </select>
+
+    <insert id="followUser" parameterType="com.sanchat.api.dto.FollowDTO">
+        INSERT INTO follow(follower_no , followee_no) VALUES(#{followerNo}, #{followeeNo});
+    </insert>
+
+    <delete id="unfollowUser" parameterType="com.sanchat.api.dto.FollowDTO">
+        DELETE FROM follow WHERE follower_no = #{followerNo} AND followee_no = #{followeeNo};
+    </delete>
 </mapper>

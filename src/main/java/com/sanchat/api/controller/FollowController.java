@@ -1,5 +1,6 @@
 package com.sanchat.api.controller;
 
+import com.sanchat.api.dto.FollowDTO;
 import com.sanchat.api.dto.UserDTO;
 import com.sanchat.api.dto.UserFDTO;
 import com.sanchat.api.service.FollowService;
@@ -27,5 +28,21 @@ public class FollowController {
         return followService.getFollowerList(userNo);
     }
 
+    @PostMapping("/followUser")
+    public void followUser(@RequestBody FollowDTO followDTO){
+
+        int follower = followDTO.getFollowerNo();
+        int followee = followDTO.getFolloweeNo();
+
+        System.out.println(follower + " + " +  followee + "--------------------");
+        followService.followUser(followDTO);
+    }
+
+    @PostMapping("/unfollowUser")
+    public void unfollowUser(@RequestBody FollowDTO followDTO){
+        int follower = followDTO.getFollowerNo();
+        int followee = followDTO.getFolloweeNo();
+        followService.unfollowUser(followDTO);
+    }
 
 }
