@@ -3,12 +3,56 @@
 
 <mapper namespace="com.sanchat.api.mapper.PhotoMapper">
     <select id="getImageList" parameterType="map" resultType="PhotoDTO">
-        <if test='type.equals("dog")'>
-            select * from photo where related_entity_id=#{id} and related_type=#{type}
+        <if test='type.equals("DOG")'>
+            select * from photo
+            where related_entity_id=#{id} and related_type=#{type}
         </if>
-        <if test='type == "user"'>
-            select * from photo where related_entity_id in
-                                (select dog_no from dog where user_no=#{id})
+        <if test='type.equals("USER")'>
+            select * from photo
+            where related_entity_id in (
+            select dog_no from dog where user_no=#{id}
+            )
+        </if>
+        <if test='type.equals("COMMUNITY")'>
+            select * from photo
+            where related_entity_id=#{id} and related_type=#{type}
         </if>
     </select>
+
+    <insert id="insertPhoto" parameterType="com.sanchat.api.dto.PhotoDTO" useGeneratedKeys="true" keyProperty="photoNo">
+        insert into photo (
+            photo_url,
+            photo_name,
+            photo_type,
+            created_at,
+            related_type,
+            related_entity_id
+        )
+        values (
+            #{photoUrl},
+            #{photoName},
+            #{photoType},
+            #{createdAt},
+            #{relatedType},
+            #{relatedEntityId}
+        )
+    </insert>
+
+    <update id="updatePhoto" parameterType="com.sanchat.api.dto.PhotoDTO">
+        update photo
+        set
+            photo_url = #{photoUrl},
+            photo_name = #{photoName},
+            created_at = #{createdAt}
+        where photo_no = #{photoNo}
+    </update>
+
+    <delete id="deletePhoto" parameterType="long">
+        delete from photo where photo_no = #{photoNo};
+    </delete>
+
+    <select id="getPhotoById" parameterType="long" resultType="PhotoDTO">
+        select * from photo where photo_no = #{photoNo};
+    </select>
+
 </mapper>

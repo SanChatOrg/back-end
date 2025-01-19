@@ -6,24 +6,34 @@
     <insert id="newPost" parameterType="com.sanchat.api.dto.CommunityDTO" useGeneratedKeys="true"
             keyProperty="communityNo">
         insert into community (
-        community_content, file_path, file_public_id, created_at, updated_at, community_view_count,
-        community_like_count,
-        community_reply_count, community_deleted, user_no)
-        values (#{communityContent}, #{filePath}, #{filePublicId}, #{createdAt}, #{updatedAt}, #{communityViewCount},
-        #{communityLikeCount}, #{communityReplyCount}, #{communityDeleted}, 1);
+            community_content,
+            created_at,
+            updated_at,
+            community_view_count,
+            community_like_count,
+            community_reply_count,
+            community_deleted,
+            user_no)
+        values (
+            #{communityContent},
+            #{createdAt},
+            #{updatedAt},
+            #{communityViewCount},
+            #{communityLikeCount},
+            #{communityReplyCount},
+            #{communityDeleted}, 1);  <!--    1 => #{userNo} 로 변경예정    -->
     </insert>
 
     <!--  CommunityEdit  -->
     <select id="getPost" resultType="com.sanchat.api.dto.CommunityDTO">
         select * from community where community_no = #{communityNo};
     </select>
+
     <update id="editPost" parameterType="com.sanchat.api.dto.CommunityDTO">
         update community set
-        community_content = #{communityContent},
-        file_path = #{filePath},
-        file_public_id = #{filePublicId},
-        updated_at = #{updatedAt}
-        where community_no = #{communityNo}
+            community_content = #{communityContent},
+            updated_at = #{updatedAt}
+        where community_no = #{communityNo};
     </update>
 
 </mapper>

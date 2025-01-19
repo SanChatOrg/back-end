@@ -1,3 +1,4 @@
+-- 사용자
 create table user (
     user_no bigint primary key not null auto_increment,
     user_name varchar(50) not null,
@@ -9,6 +10,7 @@ create table user (
     user_intro text
 );
 
+-- 산책
 create table walk (
     walk_no bigint primary key auto_increment,
     walk_time time,
@@ -16,7 +18,7 @@ create table walk (
     walk_date date
 );
 
--- 채팅 테이블
+-- 채팅
 drop table if exists chat_participant;
 create table chat_participant (
     chat_part_no bigint primary key not null auto_increment,
@@ -26,6 +28,7 @@ create table chat_participant (
     unique(chat_room_no, user_no)
 );
 
+-- 채팅방
 drop table if exists chat_room;
 create table chat_room (
 	chat_room_no bigint primary key not null auto_increment,
@@ -35,6 +38,7 @@ create table chat_room (
     is_group_chat boolean default FALSE
 );
 
+-- 채팅 메시지
 drop table if exists chat_message;
 create table chat_message (
 	chat_message_no bigint primary key not null auto_increment,
@@ -46,6 +50,7 @@ create table chat_message (
     chat_room_no bigint not null
 );
 
+-- 강아지
 create table dog
 (
     dog_no     bigint primary key auto_increment,
@@ -59,20 +64,18 @@ create table dog
     user_no bigint not null
 );
 
--- 커뮤니티 테이블
+-- 커뮤니티
 drop table if exists community;
 
 create table community (
     community_no bigint primary key not null auto_increment,
     community_content text not null,
-    file_path varchar(255) not null,
     created_at datetime default current_timestamp,
     updated_at datetime default current_timestamp on update current_timestamp,
     community_view_count bigint default 0,
     community_like_count bigint default 0,
     community_reply_count bigint default 0,
     community_deleted varchar(1) default 'n',
-    file_public_id varchar(255),
     user_no bigint not null
 );
 
@@ -104,12 +107,20 @@ create table hashtag (
     hashtag_name varchar(255) null
 );
 
+-- 사진
 CREATE TABLE Photo (
                        photo_no BIGINT AUTO_INCREMENT PRIMARY KEY, -- 사진 번호 (Primary Key)
                        photo_url VARCHAR(255) NOT NULL,           -- 사진 링크
                        photo_name VARCHAR(100),                   -- 사진명
                        photo_type VARCHAR(50),                    -- 사진 타입
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 사진 등록일
-                       related_type ENUM('USER', 'POST', 'CHAT', 'DOG') NOT NULL, -- 사진 연관 타입
+                       related_type ENUM('USER', 'POST', 'CHAT') NOT NULL, -- 사진 연관 타입
                        related_entity_id BIGINT NOT NULL          -- 사진 연관 아이디
+);
+
+-- 강아지 사진
+create table dog_photo (
+    dog_photo_no bigint primary key not null auto_increment,
+    photo_no bigint not null,
+    dog_no bigint not null
 );
