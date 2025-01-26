@@ -45,16 +45,35 @@
         where u.user_no = #{userNo}
     </select>
 
-    <select id="getUserProfileData" resultMap="userAndDogsResultMap" parameterType="Long">
-        select u.user_id, u.user_name, u.user_intro, dd.*
-        from user u
-        left join (select d.*, p.photo_url, p.photo_no
-                    from dog d
-                    left join photo p
-                    on p.related_entity_id = d.dog_no
-                    where p.related_type = 'DOG'
-                    AND d.user_no = 1) dd
-        on  u.user_no = dd.user_no
-        where u.user_no = #{userNo};
+    <select id="getUserProfileData" resultMap="userAndDogsResultMap" parameterType="String">
+<!--        select u.user_id, u.user_name, u.user_intro, dd.*-->
+<!--        from user u-->
+<!--        left join (select d.*, p.photo_url, p.photo_no-->
+<!--                    from dog d-->
+<!--                    left join photo p-->
+<!--                    on p.related_entity_id = d.dog_no-->
+<!--                    where p.related_type = 'DOG'-->
+<!--                    AND d.user_no = 1) dd-->
+<!--        on  u.user_no = dd.user_no-->
+<!--        where u.user_no = #{userNo};-->
+        select *
+        from user
+        where user_id = #{username}
     </select>
+    <!-- 기본 키를 자동 생성한 후 조회 -->
+
+    <select id="getUserNo" resultType="int">
+        select user_no from user where user_id = #{username}
+    </select>
+
+    <select id="getDogList" parameterType="String"  resultMap="dogMap">
+        select d.*, p.*
+        from user u
+        join dog d
+        on u.user_no = d.user_no
+        join photo p
+        on p.related_entity_id = d.dog_no
+        where u.user_id = #{username} and  p.related_type = 'DOG'
+    </select>
+
 </mapper>

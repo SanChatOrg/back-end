@@ -1,10 +1,13 @@
 package com.sanchat.api.serviceImpl;
 
+import com.sanchat.api.dto.DogDTO;
 import com.sanchat.api.dto.UserDTO;
 import com.sanchat.api.mapper.UserMapper;
 import com.sanchat.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,7 +20,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUser(Long userNo) {
-        return userMapper.getUserProfileData(userNo);
+    public UserDTO getUser(String username) {
+//        return userMapper.getUserProfileData(username);
+        long userNo = userMapper.getUserNo(username);
+        System.out.println(userMapper.getUser(userNo));
+        return userMapper.getUser(userNo);
     }
+
+    @Override
+    public int getUserNo(String username){
+        return userMapper.getUserNo(username);
+    }
+
+    @Override
+    public List<DogDTO> getDogList(String username){
+        return userMapper.getDogList(username);
+    }
+
 }
