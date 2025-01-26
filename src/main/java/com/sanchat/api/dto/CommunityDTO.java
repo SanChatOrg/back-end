@@ -21,4 +21,7 @@ public class CommunityDTO {
     private Long userNo;
 
     private List<PhotoDTO> photoList;
+
+    private String userName;
+    private String profilePhoto;
 }

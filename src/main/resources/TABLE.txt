@@ -94,10 +94,13 @@ create table community_like (
 drop table if exists community_reply;
 create table community_reply (
     reply_no bigint primary key not null auto_increment,
+    reply_parent_no bigint null,
     reply_content text null,
     created_at timestamp null,
-    reply_parent_no bigint null,
-    community_no bigint not null
+    deleted_at timestamp null,
+    reply_deleted varchar(1) default 'n',
+    community_no bigint not null,
+    user_no bigint not null
 );
 
 -- 해시태그
