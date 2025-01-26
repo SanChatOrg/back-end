@@ -1,6 +1,7 @@
 package com.sanchat.api.service;
 
 import com.sanchat.api.dto.CommunityDTO;
+import com.sanchat.api.dto.CommunityReplyDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -11,4 +12,13 @@ public interface CommunityService {
 
     CommunityDTO getPost(Long communityNo);
 
-    CommunityDTO editPost(Long communityNo, String communityContent, List<MultipartFile> files, List<Long> photoIdsToDelete) throws IOException;}
+    CommunityDTO editPost(Long communityNo, String communityContent, List<MultipartFile> files, List<Long> photoIdsToDelete) throws IOException;
+
+    CommunityDTO getDetail(Long communityNo);
+
+    CommunityReplyDTO newReply(Long communityNo, String replyContent, Long userNo, Long replyParentNo);
+
+    List<CommunityReplyDTO> getReply(Long communityNo);
+
+    CommunityReplyDTO deleteReply(Long communityNo, Long replyNo);
+}

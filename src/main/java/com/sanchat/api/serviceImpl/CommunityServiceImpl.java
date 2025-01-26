@@ -2,8 +2,10 @@ package com.sanchat.api.serviceImpl;
 
 import com.cloudinary.utils.ObjectUtils;
 import com.sanchat.api.dto.CommunityDTO;
+import com.sanchat.api.dto.CommunityReplyDTO;
 import com.sanchat.api.dto.PhotoDTO;
 import com.sanchat.api.mapper.CommunityMapper;
+import com.sanchat.api.mapper.PhotoMapper;
 import com.sanchat.api.service.CloudinaryService;
 import com.sanchat.api.service.CommunityService;
 import com.sanchat.api.service.PhotoService;
@@ -27,6 +29,9 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Autowired
     private PhotoService photoService;
+
+    @Autowired
+    private PhotoMapper photoMapper;
 
     @Autowired
     private CloudinaryService cloudinaryService;
@@ -101,5 +106,53 @@ public class CommunityServiceImpl implements CommunityService {
         System.out.println("게시글 수정 완료 communityNo : " + communityNo);
         return oldPost;
     }
+
+    @Override
+    public CommunityDTO getDetail(Long communityNo) {
+        CommunityDTO communityDTO = communityMapper.getDetail(communityNo);
+        if (communityDTO == null) {
+            throw new IllegalArgumentException("존재하지 않는 게시물입니다.");
+        }
+        List<PhotoDTO> photoList = photoService.getImageList("COMMUNITY", communityNo);
+        communityDTO.setPhotoList(photoList);
+        return communityDTO;
+    }
+
+    @Override
+    public CommunityReplyDTO newReply(Long communityNo, String replyContent, Long userNo, Long replyParentNo) {
+        CommunityReplyDTO communityReplyDTO = CommunityReplyDTO.builder()
+                .replyParentNo(replyParentNo)
+                .replyContent(replyContent)
+                .createdAt(LocalDateTime.now())
+                .replyDeleted("n")
+                .communityNo(communityNo)
+                .userNo(2L) // 테스트 용도
+                .build();
+        communityMapper.newReply(communityReplyDTO);
+
+        System.out.println(communityNo + "번 게시글 작성자 " + userNo + "번 댓글 업로드 완료: " + replyContent);
+        return communityReplyDTO;
+    }
+
+    @Override
+    public List<CommunityReplyDTO> getReply(Long communityNo) {
+        List<CommunityReplyDTO> replyList = communityMapper.getReply(communityNo);
+        if (replyList.isEmpty()) {
+            throw new IllegalArgumentException("해당게시글의 댓글이 존재하지 않습니다.");
+        }
+        return replyList;
+    }
+
+    @Override
+    public CommunityReplyDTO deleteReply(Long communityNo, Long replyNo) {
+        CommunityReplyDTO communityReplyDTO = CommunityReplyDTO.builder()
+                .replyNo(replyNo)
+                .communityNo(communityNo)
+                .deletedAt(LocalDateTime.now())
+                .build();
+        communityMapper.deleteReply(communityReplyDTO);
+        return communityReplyDTO;
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.sanchat.api.controller;
 
 import com.sanchat.api.dto.CommunityDTO;
+import com.sanchat.api.dto.CommunityReplyDTO;
 import com.sanchat.api.service.CommunityService;
 import com.sanchat.api.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,11 +49,41 @@ public class CommunityController {
             @RequestParam(value = "communityContent", required = false) String communityContent,
             @RequestParam(value = "files", required = false) List<MultipartFile> files,
             @RequestParam(value = "photoIdsToDelete", required = false) List<Long> photoIdsToDelete
-            ) throws IOException {
+    ) throws IOException {
 
         CommunityDTO updatePost = communityService.editPost(communityNo, communityContent, files, photoIdsToDelete);
 
         return updatePost;
+    }
+
+    // CommunityDetail
+    @GetMapping("/getDetail/{communityNo}")
+    public CommunityDTO getDetail(@PathVariable Long communityNo) {
+        return communityService.getDetail(communityNo);
+    }
+
+    // CommunityDetail reply
+    @PostMapping("/newReply/{communityNo}")
+    public CommunityReplyDTO newReply(
+            @PathVariable("communityNo") Long communityNo,
+            @RequestParam("replyContent") String replyContent,
+            @RequestParam("userNo") Long userNo,
+            @RequestParam(value = "replyParentNo", required = false) Long replyParentNo) {
+        return communityService.newReply(communityNo, replyContent, userNo, replyParentNo);
+    }
+
+    // CommunityDetail reply
+    @GetMapping("/getReply/{communityNo}")
+    public List<CommunityReplyDTO> getReply(@PathVariable Long communityNo) {
+        return communityService.getReply(communityNo);
+    }
+
+    // CommunityDetail delete
+    @PutMapping("/deleteReply/{communityNo}/{replyNo}")
+    public CommunityReplyDTO deleteReply(
+            @PathVariable("communityNo") Long communityNo,
+            @PathVariable("replyNo") Long replyNo) {
+        return communityService.deleteReply(communityNo, replyNo);
     }
 
 }

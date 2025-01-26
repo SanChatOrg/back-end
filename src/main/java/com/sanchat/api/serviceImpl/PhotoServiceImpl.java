@@ -52,23 +52,23 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     public void savePhoto(PhotoDTO photoDTO) {
-        photoMapper.insertPhoto(photoDTO); // DB에 저장만 수행
+        photoMapper.insertPhoto(photoDTO);
         System.out.println("DB에 새 사진 저장: 파일 URL = " + photoDTO.getPhotoUrl());
     }
 
     @Override
     public void updatePhoto(PhotoDTO photoDTO) {
-        photoMapper.updatePhoto(photoDTO); // DB 업데이트 수행
+        photoMapper.updatePhoto(photoDTO);
         System.out.println("DB에서 기존 사진 업데이트: 파일 URL = " + photoDTO.getPhotoUrl());
     }
 
     @Override
     public void deletePhoto(Long photoNo) {
-        PhotoDTO photo = photoMapper.getPhotoById(photoNo); // 사진 조회
+        PhotoDTO photo = photoMapper.getPhotoById(photoNo);
         if (photo != null) {
             try {
-                cloudinaryService.destroyFile(photo.getPhotoName()); // Cloudinary에서 삭제
-                photoMapper.deletePhoto(photoNo); // DB에서 삭제
+                cloudinaryService.destroyFile(photo.getPhotoName());
+                photoMapper.deletePhoto(photoNo);
                 System.out.println("사진 삭제 완료: " + photo.getPhotoName());
             } catch (IOException e) {
                 System.err.println("클라우디너리 사진 삭제 실패: " + e.getMessage());
