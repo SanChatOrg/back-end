@@ -1,18 +1,29 @@
 package com.sanchat.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sanchat.api.config.MapWebSocketHandler;
 import com.sanchat.api.dto.DogDTO;
 import com.sanchat.api.dto.UserDTO;
+import com.sanchat.api.dto.UserMDTO;
+import com.sanchat.api.dto.WebSocketSessionDTO;
 import com.sanchat.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.socket.WebSocketSession;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    MapWebSocketHandler mapWebSocketHandler;
 
     @PostMapping("/createUser")
     public void createUser(@RequestBody UserDTO userDTO) {
@@ -36,5 +47,26 @@ public class UserController {
         System.out.println(userService.getDogList(userId));
         return userService.getDogList(userId);
     }
+
+    @GetMapping("/socketList")
+    public List<UserMDTO> getSocketList() {
+        return mapWebSocketHandler.getSocketList();
+    }
+
+
+/*    @GetMapping("/socketList")
+    public List<WebSocketSessionDTO> getSocketList() {
+        List<WebSocketSessionDTO> sessionDTOList = new ArrayList<>();
+
+        mapWebSocketHandler.getSocketList().forEach((key, session) -> {
+            WebSocketSessionDTO sessionDTO = new WebSocketSessionDTO(
+                    session.getId(),
+                    session.getAttributes()
+            );
+            sessionDTOList.add(sessionDTO);
+        });
+
+        return sessionDTOList;
+    }*/
 
 }
