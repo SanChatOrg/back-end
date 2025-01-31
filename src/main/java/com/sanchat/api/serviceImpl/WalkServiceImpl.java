@@ -16,16 +16,17 @@ public class WalkServiceImpl implements WalkService {
 
     @Override
     public void insertWalk(WalkDTO walkDTO) {
-        walkMapper.insertWalk(walkDTO);
+//        walkMapper.insertWalk(walkDTO);
     }
 
     @Override
     public void deleteWalk(Long walkNo) {
-        walkMapper.deleteWalk(walkNo);
+//        walkMapper.deleteWalk(walkNo);
     }
 
     @Override
     public List<WalkDTO> getAllWalk() {
-        return walkMapper.getAllWalk();
+//        return walkMapper.getAllWalk();
+        return null;
     }
 }
