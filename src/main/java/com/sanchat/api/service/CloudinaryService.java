@@ -29,7 +29,6 @@ public class CloudinaryService {
 
     public Map<?, ?> destroyFile(String oldPublicId) throws IOException {
         if (oldPublicId != null && !oldPublicId.isEmpty()) {
-            System.out.println("삭제할 사진 publicId: " + oldPublicId);
             return cloudinary.uploader().destroy(oldPublicId, ObjectUtils.emptyMap());
         }
         return null;

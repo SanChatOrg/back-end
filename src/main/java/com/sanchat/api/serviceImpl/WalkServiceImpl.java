@@ -1,3 +1,4 @@
+
 package com.sanchat.api.serviceImpl;
 
 import com.sanchat.api.dto.WalkDTO;
@@ -27,3 +28,4 @@ public class WalkServiceImpl implements WalkService {
 
     }
 }
+
