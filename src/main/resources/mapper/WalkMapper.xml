@@ -6,4 +6,8 @@
         INSERT INTO walk (walk_time_start, walk_time_end, walk_distance, walk_date)
         VALUES(#{walkTimeStart}, #{walkTimeEnd}, #{walkDistance}, #{walkDate});
     </insert>
+
+    <select id="walkList" resultType="com.sanchat.api.dto.WalkDTO">
+        SELECT * FROM walk;
+    </select>
 </mapper>

@@ -18,7 +18,10 @@ create table walk (
     walk_date date
 );
 
--- 채팅
+
+
+-- 채팅 테이블
+
 drop table if exists chat_participant;
 create table chat_participant (
     chat_part_no bigint primary key not null auto_increment,
@@ -121,9 +124,17 @@ CREATE TABLE Photo (
                        related_entity_id BIGINT NOT NULL          -- 사진 연관 아이디
 );
 
+
 -- 강아지 사진
 create table dog_photo (
     dog_photo_no bigint primary key not null auto_increment,
     photo_no bigint not null,
     dog_no bigint not null
+
+-- 팔로우 테이블
+create table Follow (
+	follow_no bigint primary key not null  auto_increment,
+    followee bigint not null,
+    follower bigint not null
+
 );

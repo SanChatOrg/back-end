@@ -3,9 +3,15 @@ package com.sanchat.api.config;
 import ch.qos.logback.core.net.SyslogOutputStream;
 import ch.qos.logback.core.net.server.Client;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.sanchat.api.dto.DogDTO;
+import com.sanchat.api.dto.UserDTO;
+import com.sanchat.api.dto.UserMDTO;
+import com.sanchat.api.service.UserService;
 import lombok.Builder;
+import org.apache.catalina.User;
 import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
@@ -14,10 +20,18 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class MapWebSocketHandler extends TextWebSocketHandler {
+
+    @Autowired
+    UserService userService;
+
+//    Map<String, UserMDTO> userList = new HashMap<>();
+
+    List<UserMDTO> userList = new ArrayList<>();
 
     private static final ConcurrentHashMap<String, WebSocketSession> CLIENTS =
                 new ConcurrentHashMap<String, WebSocketSession>();
@@ -27,6 +41,7 @@ public class MapWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         CLIENTS.put(session.getId(), session);
+
     }
 
     @Override
@@ -40,12 +55,35 @@ public class MapWebSocketHandler extends TextWebSocketHandler {
 
 
         JSONObject jsonObject = new JSONObject(String.valueOf(message.getPayload()));
-        String name = jsonObject.getString("name");
+
+        System.out.println(message.getPayload());
+
+        String userId = jsonObject.getString("userId");
         String latitude = jsonObject.getString("latitude");
         String longitude = jsonObject.getString("longitude");
         String type = jsonObject.getString("type");
+//        String dogList = jsonObject.getString("dogList");
+//        String userIntro = jsonObject.getString("userIntro");
 
-        System.out.println(id +" :: " + name + " 님의 위치 정보 | " +latitude + " | " +longitude + type );
+        UserMDTO userMDTO = new UserMDTO();
+        UserDTO userDTO = userService.getUser(userId);
+
+        userMDTO.setPhoto(userDTO.getPhoto().getPhotoUrl());
+
+        List<String> dogList = new ArrayList<>();
+        for(DogDTO dDto : userDTO.getDogList()){
+            dogList.add(dDto.getDogName());
+        }
+        userMDTO.setDogList(dogList);
+        userMDTO.setUserIntro(userDTO.getUserIntro());
+        userMDTO.setUserId(userId);
+        userMDTO.setUserName(userDTO.getUserName());
+        userMDTO.setLatitude(Double.parseDouble(latitude));
+        userMDTO.setLongitude(Double.parseDouble(longitude));
+
+        userList.add(userMDTO); // 소켓에 등록 된 사람 정보
+
+        System.out.println(id +" :: " + userId + " 님의 위치 정보 | " +latitude + " | " +longitude + type );
 
 
         switch(type) {
@@ -63,6 +101,7 @@ public class MapWebSocketHandler extends TextWebSocketHandler {
             if(!arg.getKey().equals(id)) {  //같은 아이디가 아니면 메시지를 전달합니다.
                 try {
                     arg.getValue().sendMessage(message);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -84,4 +123,12 @@ public class MapWebSocketHandler extends TextWebSocketHandler {
     public boolean supportsPartialMessages() {
         return false;
     }
+
+    public List<UserMDTO> getSocketList() {
+        return userList;
+    }
+
+//    public ConcurrentHashMap<String, WebSocketSession> getSocketList() {
+//        return CLIENTS;
+//    }
 }

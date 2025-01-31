@@ -33,4 +33,16 @@ public class ChatRoomTest {
 //        int result = chatRoomMapper.save(chatRoomDTO);
 //        System.out.println(result);
     }
+
+    @Test
+    public void chatRoomTest03() {
+//        ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder().chatRoomName("test").build();
+//        Long userNo = 1L;
+//        int result = chatRoomService.addChatRoom(chatRoomDTO, userNo);
+//        if (result == 1) {
+//            System.out.println("채팅방 생성 성공");
+//        } else {
+//            System.out.println("채팅방 생성 실패");
+//        }
+    }
 }
