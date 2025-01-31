@@ -16,6 +16,7 @@ create table walk (
     walk_date date
 );
 
+
 -- 채팅 테이블
 drop table if exists chat_participant;
 create table chat_participant (
@@ -112,4 +113,11 @@ CREATE TABLE Photo (
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 사진 등록일
                        related_type ENUM('USER', 'POST', 'CHAT', 'DOG') NOT NULL, -- 사진 연관 타입
                        related_entity_id BIGINT NOT NULL          -- 사진 연관 아이디
+);
+
+-- 팔로우 테이블
+create table Follow (
+	follow_no bigint primary key not null  auto_increment,
+    followee bigint not null,
+    follower bigint not null
 );

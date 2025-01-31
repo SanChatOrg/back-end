@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/walk")
 @CrossOrigin(origins = "*")
@@ -22,6 +24,10 @@ public class WalkController {
         return ResponseEntity.ok("Data received successfully.");
     }
 
+    @GetMapping("/getWalkList")
+    public List<WalkDTO> getWalkList(){
+        return walkService.walkList();
+    }
 
 
 }

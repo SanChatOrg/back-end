@@ -1,9 +1,16 @@
 package com.sanchat.api.service;
 
+import com.sanchat.api.dto.DogDTO;
 import com.sanchat.api.dto.UserDTO;
+
+import java.util.List;
 
 public interface UserService {
     void createUser(UserDTO userDTO);
 
-    UserDTO getUser(Long userNo);
+    UserDTO getUser(String username);
+
+    int getUserNo(String username);
+
+    List<DogDTO> getDogList(String username);
 }
