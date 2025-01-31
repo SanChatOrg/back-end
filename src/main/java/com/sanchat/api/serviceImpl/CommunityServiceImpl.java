@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -138,7 +139,7 @@ public class CommunityServiceImpl implements CommunityService {
     public List<CommunityReplyDTO> getReply(Long communityNo) {
         List<CommunityReplyDTO> replyList = communityMapper.getReply(communityNo);
         if (replyList.isEmpty()) {
-            throw new IllegalArgumentException("해당게시글의 댓글이 존재하지 않습니다.");
+            return Collections.emptyList();
         }
         return replyList;
     }
@@ -152,6 +153,27 @@ public class CommunityServiceImpl implements CommunityService {
                 .build();
         communityMapper.deleteReply(communityReplyDTO);
         return communityReplyDTO;
+    }
+
+    @Override
+    public CommunityDTO deletePost(Long communityNo) {
+        CommunityDTO communityDTO = CommunityDTO.builder()
+                .communityNo(communityNo)
+                .updatedAt(LocalDateTime.now())
+                .communityDeleted("y")
+                .build();
+        communityMapper.deletePost(communityDTO);
+        return communityDTO;
+    }
+
+    @Override
+    public List<CommunityDTO> getAllPost() {
+        List<CommunityDTO> communityList = communityMapper.getAllPost();
+        communityList.forEach(dto -> {
+            List<PhotoDTO> photoList = photoService.getImageList("COMMUNITY", dto.getCommunityNo());
+            dto.setPhotoList(photoList);
+        });
+        return communityList;
     }
 
 

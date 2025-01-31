@@ -21,4 +21,8 @@ public interface CommunityService {
     List<CommunityReplyDTO> getReply(Long communityNo);
 
     CommunityReplyDTO deleteReply(Long communityNo, Long replyNo);
+
+    CommunityDTO deletePost(Long communityNo);
+
+    List<CommunityDTO> getAllPost();
 }
