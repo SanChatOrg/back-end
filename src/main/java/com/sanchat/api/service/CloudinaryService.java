@@ -27,8 +27,15 @@ public class CloudinaryService {
         this.cloudinary = new Cloudinary(config); // 위 config 설정값으로 위 Cloudinary 객체를 통해 Cloudinary API 통신
     }
 
-    public String upload(MultipartFile file) throws IOException {
-        Map<?, ?> result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()); // 바이너리 데이터로 변환한 파일을 Cloudinary 업로드하는 메서드 / ObjectUtils.emptyMap() 업로드 시 추가 옵션을 설정하지 않음
-        return (String) result.get("secure_url"); // secure_url: Cloudinary 에서 업로드된 파일의 URL(HTTPS 형식)
+    public Map<?, ?> destroyFile(String oldPublicId) throws IOException {
+        if (oldPublicId != null && !oldPublicId.isEmpty()) {
+            return cloudinary.uploader().destroy(oldPublicId, ObjectUtils.emptyMap());
+        }
+        return null;
     }
+
+    public Map<?, ?> uploadFile(MultipartFile newFile) throws IOException {
+        return cloudinary.uploader().upload(newFile.getBytes(), ObjectUtils.emptyMap());
+    }
+
 }

@@ -51,6 +51,8 @@ dependencies {
     // Cloudinary
     implementation 'com.cloudinary:cloudinary-http44:1.32.0'
 
+    // mongodb
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 }
 
 tasks.named('test') {

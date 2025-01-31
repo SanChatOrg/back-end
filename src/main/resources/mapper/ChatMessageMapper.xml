@@ -4,6 +4,14 @@
 
 <mapper namespace="com.sanchat.api.mapper.ChatMessageMapper">
 
-
+    <insert id="save" parameterType="ChatMessageDTO" useGeneratedKeys="true" keyProperty="chatMessageNo">
+        insert into chat_message (chat_message_no, message_type, message_content, message_content_type, user_no)
+        values (#{chatMessageNo}, #{messageType}, #{messageContent}, #{messageContentType}, #{userNo})
+        on duplicate key update
+                             message_type = values(message_type),
+                             message_content = values(message_content),
+                             message_content_type = values(message_content_type),
+                             user_no = values(user_no)
+    </insert>
 
 </mapper>

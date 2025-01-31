@@ -1,3 +1,4 @@
+-- 사용자
 create table user (
     user_no bigint primary key not null auto_increment,
     user_name varchar(50) not null,
@@ -9,15 +10,18 @@ create table user (
     user_intro text
 );
 
--- 산책 테이블
-CREATE TABLE walk (
-    walk_no INT AUTO_INCREMENT PRIMARY KEY,
-    walk_time_start TIME NOT NULL,
-    walk_time_end TIME NOT NULL,
-    walk_distance FLOAT NOT NULL,
-    walk_date DATE NOT NULL
+-- 산책
+create table walk (
+    walk_no bigint primary key auto_increment,
+    walk_time time,
+    walk_distance float,
+    walk_date date
+);
+
+
 
 -- 채팅 테이블
+
 drop table if exists chat_participant;
 create table chat_participant (
     chat_part_no bigint primary key not null auto_increment,
@@ -27,6 +31,7 @@ create table chat_participant (
     unique(chat_room_no, user_no)
 );
 
+-- 채팅방
 drop table if exists chat_room;
 create table chat_room (
 	chat_room_no bigint primary key not null auto_increment,
@@ -36,6 +41,7 @@ create table chat_room (
     is_group_chat boolean default FALSE
 );
 
+-- 채팅 메시지
 drop table if exists chat_message;
 create table chat_message (
 	chat_message_no bigint primary key not null auto_increment,
@@ -47,6 +53,7 @@ create table chat_message (
     chat_room_no bigint not null
 );
 
+-- 강아지
 create table dog
 (
     dog_no     bigint primary key auto_increment,
@@ -60,7 +67,7 @@ create table dog
     user_no bigint not null
 );
 
--- 커뮤니티 테이블
+-- 커뮤니티
 drop table if exists community;
 
 create table community (
@@ -91,10 +98,13 @@ create table community_like (
 drop table if exists community_reply;
 create table community_reply (
     reply_no bigint primary key not null auto_increment,
+    reply_parent_no bigint null,
     reply_content text null,
     created_at timestamp null,
-    reply_parent_no bigint null,
-    community_no bigint not null
+    deleted_at timestamp null,
+    reply_deleted varchar(1) default 'n',
+    community_no bigint not null,
+    user_no bigint not null
 );
 
 -- 해시태그
@@ -104,20 +114,28 @@ create table hashtag (
     hashtag_name varchar(255) null
 );
 
+-- 사진
 CREATE TABLE Photo (
                        photo_no BIGINT AUTO_INCREMENT PRIMARY KEY, -- 사진 번호 (Primary Key)
                        photo_url VARCHAR(255) NOT NULL,           -- 사진 링크
                        photo_name VARCHAR(100),                   -- 사진명
                        photo_type VARCHAR(50),                    -- 사진 타입
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 사진 등록일
-                       related_type ENUM('USER', 'POST', 'CHAT', 'DOG') NOT NULL, -- 사진 연관 타입
+                       related_type ENUM('USER', 'POST', 'CHAT') NOT NULL, -- 사진 연관 타입
                        related_entity_id BIGINT NOT NULL          -- 사진 연관 아이디
-
 );
+
+
+-- 강아지 사진
+create table dog_photo (
+    dog_photo_no bigint primary key not null auto_increment,
+    photo_no bigint not null,
+    dog_no bigint not null
 
 -- 팔로우 테이블
 create table Follow (
 	follow_no bigint primary key not null  auto_increment,
     followee bigint not null,
     follower bigint not null
+
 );

@@ -7,6 +7,7 @@ import java.util.List;
 public interface ChatRoomService {
 
     List<ChatRoomDTO> getAllChatRoomsByUserNo(Long userNo);
-    int saveChatRoom(ChatRoomDTO chatRoomDTO);
+    int addChatRoom(ChatRoomDTO chatRoomDTO, Long userNo);
+    int updateChatRoom(ChatRoomDTO chatRoomDTO);
 
 }

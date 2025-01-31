@@ -10,8 +10,11 @@ import java.time.LocalDateTime;
 @Builder
 public class CommunityReplyDTO {
     private Long replyNo;
+    private Long replyParentNo;
     private String replyContent;
     private LocalDateTime createdAt;
-    private Long replyParentNo;
+    private LocalDateTime deletedAt;
+    private String replyDeleted;
     private Long communityNo;
+    private Long userNo;
 }

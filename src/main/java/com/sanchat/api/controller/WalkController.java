@@ -1,3 +1,4 @@
+
 package com.sanchat.api.controller;
 
 import com.sanchat.api.dto.WalkDTO;
@@ -20,7 +21,7 @@ public class WalkController {
     public ResponseEntity<String> walkData(@RequestBody WalkDTO data){
 
         System.out.println(data);
-        walkService.walkRegist(data);
+//        walkService.walkRegist(data);
         return ResponseEntity.ok("Data received successfully.");
     }
 
