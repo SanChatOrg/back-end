@@ -111,4 +111,44 @@
             reply_no = #{replyNo};
     </update>
 
+    <!--  CommunityDetail Post delete  -->
+    <update id="deletePost" parameterType="com.sanchat.api.dto.CommunityDTO">
+        update community set
+            community_deleted = "y",
+            updated_at = #{updatedAt}
+        where
+            community_no = #{communityNo}
+    </update>
+
+    <!--  CommunityMain All Posts  -->
+    <select id="getAllPost" resultType="com.sanchat.api.dto.CommunityDTO">
+        select
+            c.*,
+            u.user_name,
+            u.user_no,
+            pr.photo_url as profile_photo,
+            group_concat(p.photo_url) as post_photo
+        from
+            community c
+        left join
+            user u
+            on c.user_no = u.user_no
+        left join
+            photo pr
+            on pr.related_entity_id = u.user_no
+            and pr.related_type = 'USER'
+        left join
+            photo p
+            on p.related_entity_id = c.community_no
+            and p.related_type = 'COMMUNITY'
+        where
+            c.community_deleted = "n"
+        group by
+            c.community_no,
+            u.user_name,
+            u.user_no,
+            pr.photo_url
+        order by
+            c.created_at desc
+    </select>
 </mapper>

@@ -78,12 +78,28 @@ public class CommunityController {
         return communityService.getReply(communityNo);
     }
 
-    // CommunityDetail delete
+    // CommunityDetail reply delete
     @PutMapping("/deleteReply/{communityNo}/{replyNo}")
     public CommunityReplyDTO deleteReply(
             @PathVariable("communityNo") Long communityNo,
             @PathVariable("replyNo") Long replyNo) {
         return communityService.deleteReply(communityNo, replyNo);
     }
+
+    // CommunityDetail post delete
+    @PutMapping("/deletePost/{communityNo}")
+    public CommunityDTO deletePost(@PathVariable("communityNo") Long communityNo) {
+        return communityService.deletePost(communityNo);
+    }
+
+    // CommunityMain
+    @GetMapping("/getAllPost")
+    public List<CommunityDTO> getAllPost() {
+        return communityService.getAllPost();
+    }
+
+    // CommunityMain Like
+//    @PostMapping("/like/{communityNo}")
+//    public
 
 }

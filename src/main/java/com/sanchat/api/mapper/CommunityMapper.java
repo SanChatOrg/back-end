@@ -22,4 +22,7 @@ public interface CommunityMapper {
 
     void deleteReply(CommunityReplyDTO dto);
 
+    void deletePost(CommunityDTO communityDTO);
+
+    List<CommunityDTO> getAllPost();
 }
