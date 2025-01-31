@@ -29,8 +29,8 @@ public class ChatController {
 
     // 채팅방 생성
     @PostMapping("/room/add")
-    public ResponseEntity<Void> addChatRoom(@RequestBody ChatRoomDTO chatRoomDTO) {
-        int result = chatRoomService.saveChatRoom(chatRoomDTO);
+    public ResponseEntity<Void> addChatRoom(@RequestBody ChatRoomDTO chatRoomDTO, @RequestBody Long userNo) {
+        int result = chatRoomService.addChatRoom(chatRoomDTO, userNo);
         if (result == 1) {
             return ResponseEntity.ok().build();
         } else {
@@ -41,7 +41,7 @@ public class ChatController {
     // 채팅방 수정
     @PostMapping("/room/edit")
     public ResponseEntity<Void> editChatRoom(@RequestBody ChatRoomDTO chatRoomDTO) {
-        int result = chatRoomService.saveChatRoom(chatRoomDTO);
+        int result = chatRoomService.updateChatRoom(chatRoomDTO);
         if (result == 1) {
             return ResponseEntity.ok().build();
         } else {

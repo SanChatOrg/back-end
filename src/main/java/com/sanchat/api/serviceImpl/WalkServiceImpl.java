@@ -16,15 +16,14 @@ public class WalkServiceImpl implements WalkService {
 
     public void walkRegist(WalkDTO dto) {
         walkMapper.walkRegist(dto);
+
     }
 
     @Override
     public List<WalkDTO> getAllWalk() {
-            return walkMapper.getAllWalk();
-        }
 
-    public List<WalkDTO> walkList() {
-        System.out.println(walkMapper.walkList());
-        return walkMapper.walkList();
+//        return walkMapper.getAllWalk();
+        return null;
+
     }
 }

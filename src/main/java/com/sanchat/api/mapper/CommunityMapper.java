@@ -6,4 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CommunityMapper {
     void newPost(CommunityDTO communityDTO);
+
+    CommunityDTO getPost(Long communityNo);
+
+    void editPost(CommunityDTO communityDTO);
 }
