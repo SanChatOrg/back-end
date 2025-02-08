@@ -1,5 +1,6 @@
 package com.sanchat.api.mapper;
 
+import com.sanchat.api.dto.CommunityDTO;
 import com.sanchat.api.dto.DogDTO;
 import com.sanchat.api.dto.UserDTO;
 import org.apache.catalina.User;
@@ -20,4 +21,6 @@ public interface UserMapper {
     int getUserNo(String username);
 
     List<DogDTO> getDogList(String username);
+
+    List<CommunityDTO> getPhotoList(long userNo);
 }
