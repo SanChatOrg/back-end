@@ -31,7 +31,7 @@ public class MapWebSocketHandler extends TextWebSocketHandler {
 
 //    Map<String, UserMDTO> userList = new HashMap<>();
 
-    List<UserMDTO> userList = new ArrayList<>();
+    Map<String, UserMDTO> userList = new HashMap<>();
 
     private static final ConcurrentHashMap<String, WebSocketSession> CLIENTS =
                 new ConcurrentHashMap<String, WebSocketSession>();
@@ -62,26 +62,27 @@ public class MapWebSocketHandler extends TextWebSocketHandler {
         String latitude = jsonObject.getString("latitude");
         String longitude = jsonObject.getString("longitude");
         String type = jsonObject.getString("type");
-//        String dogList = jsonObject.getString("dogList");
-//        String userIntro = jsonObject.getString("userIntro");
 
-        UserMDTO userMDTO = new UserMDTO();
-        UserDTO userDTO = userService.getUser(userId);
 
+        UserDTO userDTO = userService.getUser(userId); // 정보 조회해오기
+        UserMDTO userMDTO = new UserMDTO(); // 위도경도도 포함된
+
+        userMDTO.setUserId(userId);
         userMDTO.setPhoto(userDTO.getPhoto().getPhotoUrl());
+        userMDTO.setUserName(userDTO.getUserName());
+        userMDTO.setUserIntro(userDTO.getUserIntro());
 
         List<String> dogList = new ArrayList<>();
         for(DogDTO dDto : userDTO.getDogList()){
             dogList.add(dDto.getDogName());
         }
         userMDTO.setDogList(dogList);
-        userMDTO.setUserIntro(userDTO.getUserIntro());
-        userMDTO.setUserId(userId);
-        userMDTO.setUserName(userDTO.getUserName());
+
         userMDTO.setLatitude(Double.parseDouble(latitude));
         userMDTO.setLongitude(Double.parseDouble(longitude));
 
-        userList.add(userMDTO); // 소켓에 등록 된 사람 정보
+
+        userList.put(userId, userMDTO); // 소켓에 등록 된 사람 정보 저장
 
         System.out.println(id +" :: " + userId + " 님의 위치 정보 | " +latitude + " | " +longitude + type );
 
@@ -124,7 +125,7 @@ public class MapWebSocketHandler extends TextWebSocketHandler {
         return false;
     }
 
-    public List<UserMDTO> getSocketList() {
+    public  Map<String, UserMDTO> getSocketList() {
         return userList;
     }
 
