@@ -23,19 +23,215 @@
             #{communityReplyCount},
             #{communityDeleted},
             1
-            );  <!--    1 => #{userNo} 로 변경예정    -->
+
+            )  <!--    1 => #{userNo} 로 변경예정    -->
     </insert>
 
     <!--  CommunityEdit  -->
     <select id="getPost" resultType="com.sanchat.api.dto.CommunityDTO">
-        select * from community where community_no = #{communityNo} and community_deleted = "n";
+        select *
+            from community
+        where community_no = #{communityNo}
+            and community_deleted = "n"
     </select>
 
     <update id="editPost" parameterType="com.sanchat.api.dto.CommunityDTO">
         update community set
             community_content = #{communityContent},
             updated_at = #{updatedAt}
-        where community_no = #{communityNo};
+        where community_no = #{communityNo}
+    </update>
+
+    <!--  CommunityDetail  -->
+    <select id="getDetail" resultType="com.sanchat.api.dto.CommunityDTO">
+        select
+            c.*,
+            u.user_name,
+            u.user_no,
+            pr.photo_url as profile_photo,
+            group_concat(p.photo_url) as post_photo
+        from
+            community c
+        left join
+            user u
+            on c.user_no = u.user_no
+        left join
+            photo pr
+            on pr.related_entity_id = u.user_no
+            and pr.related_type = 'USER'
+        left join
+            photo p
+            on p.related_entity_id = c.community_no
+            and p.related_type = 'COMMUNITY'
+        where
+            c.community_no = #{communityNo}
+        and
+            c.community_deleted = "n"
+        group by
+            c.community_no,
+            u.user_name,
+            u.user_no,
+            pr.photo_url
+    </select>
+
+    <!--  CommunityDetail reply  -->
+    <insert id="newReply" parameterType="com.sanchat.api.dto.CommunityReplyDTO" useGeneratedKeys="true" keyProperty="replyNo">
+        insert into community_reply (
+            reply_parent_no,
+            reply_content,
+            created_at,
+            reply_deleted,
+            community_no,
+            user_no
+            )
+        values (
+            #{replyParentNo},
+            #{replyContent},
+            #{createdAt},
+            #{replyDeleted},
+            #{communityNo},
+            #{userNo}
+        )
+    </insert>
+
+    <!--  CommunityDetail reply plus  -->
+    <update id="plusReplyCnt" parameterType="long">
+        update community set
+            community_reply_count = community_reply_count + 1
+        where community_no = #{communityNo}
+    </update>
+
+    <!--  CommunityDetail reply minus  -->
+    <update id="minusReplyCnt" parameterType="long">
+        update community set
+            community_reply_count = community_reply_count -1
+        where community_no = #{communityNo}
+    </update>
+
+    <!--  CommunityDetail reply  -->
+    <select id="getReply" resultType="com.sanchat.api.dto.CommunityReplyDTO">
+        select
+            r.*,
+            u.user_name,
+            p.photo_url as profile_photo
+        from
+            community_reply r
+        left join
+            user u
+            on r.user_no = u.user_no
+        left join
+            photo p
+            on p.related_entity_id = u.user_no
+            and p.related_type = 'USER'
+        where
+            r.community_no = #{communityNo}
+        and
+            r.reply_deleted = "n"
+        order by r.created_at
+    </select>
+
+    <!--  CommunityDetail reply delete  -->
+    <update id="deleteReply" parameterType="com.sanchat.api.dto.CommunityReplyDTO">
+        update community_reply set
+            reply_deleted = "y",
+            deleted_at = #{deletedAt}
+        where
+            community_no = #{communityNo}
+        and
+            reply_no = #{replyNo}
+    </update>
+
+    <!--  CommunityDetail Post delete  -->
+    <update id="deletePost" parameterType="com.sanchat.api.dto.CommunityDTO">
+        update community set
+            community_deleted = "y",
+            updated_at = #{updatedAt}
+        where
+            community_no = #{communityNo}
+    </update>
+
+    <!--  CommunityMain All Posts  -->
+    <select id="getAllPost" resultType="com.sanchat.api.dto.CommunityDTO" parameterType="map">
+        select
+            c.*,
+            l.is_liked as isLiked,
+            u.user_name,
+            u.user_no,
+            pr.photo_url as profile_photo,
+            group_concat(p.photo_url) as post_photo
+        from
+            community c
+        left join
+            user u
+            on c.user_no = u.user_no
+        left join
+            photo pr
+            on pr.related_entity_id = u.user_no
+            and pr.related_type = 'USER'
+        left join
+            photo p
+            on p.related_entity_id = c.community_no
+            and p.related_type = 'COMMUNITY'
+        left join
+            community_like l
+            on l.community_no = c.community_no
+            and l.user_no = #{userNo}
+        where
+            c.community_deleted = "n"
+        group by
+            c.community_no,
+            u.user_name,
+            u.user_no,
+            pr.photo_url,
+            l.is_liked
+        order by
+            c.created_at desc
+    </select>
+
+    <!--  CommunityMain like  -->
+    <select id="getLike" resultType="com.sanchat.api.dto.CommunityLikeDTO">
+        select * from community_like
+        where
+            community_no = #{communityNo}
+        and
+            user_no = #{userNo}
+    </select>
+
+    <update id="updateLike" parameterType="com.sanchat.api.dto.CommunityLikeDTO">
+        update community_like
+            set is_liked = #{isLiked}
+        where
+            community_no = #{communityNo}
+        and
+            user_no = #{userNo}
+    </update>
+
+    <insert id="insertLike" parameterType="com.sanchat.api.dto.CommunityLikeDTO" useGeneratedKeys="true" keyProperty="likeNo">
+        insert into community_like (
+            created_at,
+            is_liked,
+            user_no,
+            community_no
+        )
+        values (
+            #{createdAt},
+            #{isLiked},
+            #{userNo},
+            #{communityNo}
+        )
+    </insert>
+
+    <update id="updateLikeCount">
+        update community
+        set
+            community_like_count = (
+                select count(*)
+                from community_like
+                where community_no = #{communityNo}
+                and is_liked = 'y'
+            )
+        where community_no = #{communityNo}
+
     </update>
 
     <!--  CommunityDetail  -->

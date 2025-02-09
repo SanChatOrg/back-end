@@ -1,10 +1,12 @@
 package com.sanchat.api.controller;
 
 import com.sanchat.api.dto.CommunityDTO;
+import com.sanchat.api.dto.CommunityLikeDTO;
 import com.sanchat.api.dto.CommunityReplyDTO;
 import com.sanchat.api.service.CommunityService;
 import com.sanchat.api.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -94,12 +96,13 @@ public class CommunityController {
 
     // CommunityMain
     @GetMapping("/getAllPost")
-    public List<CommunityDTO> getAllPost() {
-        return communityService.getAllPost();
+    public List<CommunityDTO> getAllPost(@RequestParam Long userNo) {
+        return communityService.getAllPost(userNo);
     }
 
     // CommunityMain Like
-//    @PostMapping("/like/{communityNo}")
-//    public
-
+    @PostMapping("/like/{communityNo}/{userNo}")
+    public ResponseEntity<CommunityLikeDTO> likePost(@PathVariable("communityNo") Long communityNo,
+                                                     @PathVariable("userNo") Long userNo) {
+        return ResponseEntity.ok(communityService.likePost(communityNo, userNo));
 }
