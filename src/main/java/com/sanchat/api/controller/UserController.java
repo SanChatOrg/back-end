@@ -42,7 +42,7 @@ public class UserController {
     @GetMapping("/getDogList")
     public List<DogDTO> getDogList(@RequestParam String userId){
         System.out.println(userId);
-        System.out.println(userService.getDogList(userId));
+        System.out.println(userService.getDogList(userId) + "독독독");
         return userService.getDogList(userId);
     }
 

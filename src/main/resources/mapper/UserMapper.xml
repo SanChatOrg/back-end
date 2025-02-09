@@ -62,11 +62,11 @@
             JOIN photo p
             ON u.user_no = p.related_entity_id
             WHERE u.user_no = #{userNo} AND p.related_type = 'USER' ) u
-        JOIN dog d
+        LEFT JOIN dog d
         ON u.user_no = d.user_no
-        JOIN photo p
-        ON d.dog_no = p.related_entity_id
-        WHERE u.user_no = #{userNo} AND p.related_type = 'DOG'
+        LEFT JOIN photo p
+        ON d.dog_no = p.related_entity_id AND p.related_type = 'DOG'
+        WHERE u.user_no = #{userNo}
     </select>
 
     <select id="getUserProfileData" resultMap="userResultMap" parameterType="String">
@@ -91,13 +91,14 @@
     </select>
 
     <select id="getDogList" parameterType="String"  resultMap="dogMap">
-        select d.*, p.*
+        select *
+        from  ( select d.*
         from user u
         join dog d
         on u.user_no = d.user_no
-        join photo p
-        on p.related_entity_id = d.dog_no
-        where u.user_id = #{username} and  p.related_type = 'DOG'
+        where user_id = #{username} ) ud
+        left join photo p
+        on p.related_entity_id = ud.dog_no AND p.related_type = 'DOG'
     </select>
 
 
