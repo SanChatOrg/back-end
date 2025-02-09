@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class CommunityLikeDTO {
     private Long likeNo;
     private LocalDateTime createdAt;
-    private String isLiked;
+    private String isLiked; // 'y' or 'n'
     private Long userNo;
     private Long communityNo;
 }

@@ -24,4 +24,6 @@ public class CommunityDTO {
 
     private String userName;
     private String profilePhoto;
+
+    private String isLiked; // 'y' or 'n'
 }
