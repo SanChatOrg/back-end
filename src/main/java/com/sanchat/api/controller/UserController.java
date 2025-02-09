@@ -2,10 +2,7 @@ package com.sanchat.api.controller;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sanchat.api.config.MapWebSocketHandler;
-import com.sanchat.api.dto.DogDTO;
-import com.sanchat.api.dto.UserDTO;
-import com.sanchat.api.dto.UserMDTO;
-import com.sanchat.api.dto.WebSocketSessionDTO;
+import com.sanchat.api.dto.*;
 import com.sanchat.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +11,7 @@ import org.springframework.web.socket.WebSocketSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
@@ -49,10 +47,14 @@ public class UserController {
     }
 
     @GetMapping("/socketList")
-    public List<UserMDTO> getSocketList() {
+    public Map<String, UserMDTO> getSocketList() {
         return mapWebSocketHandler.getSocketList();
     }
 
+    @GetMapping("/getPhotoList")
+    public List<CommunityDTO> getPhotoList(@RequestParam String userId){
+        return userService.getPhotoList(userId);
+    }
 
 /*    @GetMapping("/socketList")
     public List<WebSocketSessionDTO> getSocketList() {

@@ -9,6 +9,17 @@
         <result property="userName" column="user_name"/>
         <result property="userIntro" column="user_intro"/>
         <association property="photo" javaType="PhotoDTO">
+            <result property="photoUrl" column="user_photo_url"/>
+        </association>
+        <collection property="dogList" resultMap="dogMap"/>
+    </resultMap>
+
+    <resultMap id="userResultMap" type="UserDTO">
+        <id property="userNo" column="user_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userIntro" column="user_intro"/>
+        <association property="photo" javaType="PhotoDTO">
             <id property="photoNo" column="photo_no" />
             <result property="photoUrl" column="photo_url"/>
         </association>
@@ -28,24 +39,37 @@
         </association>
     </resultMap>
 
+    <resultMap id="userPhotoListMap" type="CommunityDTO">
+        <id property="communityNo" column="community_no"/>
+        <result property="communityContent" column="community_content"/>
+        <result property="userNo" column="user_no"/>
+        <collection property="photoList" ofType="PhotoDTO">
+            <id property="photoNo" column="photo_no" />
+            <result property="photoUrl" column="photo_url"/>
+            <result property="photoName" column="photo_name"/>
+<!--            <result property="photoType" column="photo_type"/>-->
+<!--            <result property="createdAt" column="created_at"/>-->
+<!--            <result property="relatedType" column="related_type"/>-->
+<!--            <result property="relatedEntityId" column="related_entity_id"/>-->
+        </collection>
+    </resultMap>
+
+
     <select id="getUser" resultMap="userAndDogsResultMap" parameterType="Long">
-        select u.user_no, u.user_id, u.user_name, u.user_intro, d.*, p2.*
-        from user u
-                 left join
-             (select dog.user_no, dog.dog_no, dog.dog_name, p.*
-              from dog
-                       left join
-                   photo p
-                   on
-                       dog.dog_no = p.related_entity_id) as d
-             on u.user_no = d.user_no
-                 left join
-             photo p2
-        on u.user_no=p2.related_entity_id
-        where u.user_no = #{userNo}
+        SELECT *
+        FROM ( SELECT u.* , p.photo_url as user_photo_url
+            FROM user u
+            JOIN photo p
+            ON u.user_no = p.related_entity_id
+            WHERE u.user_no = #{userNo} AND p.related_type = 'USER' ) u
+        JOIN dog d
+        ON u.user_no = d.user_no
+        JOIN photo p
+        ON d.dog_no = p.related_entity_id
+        WHERE u.user_no = #{userNo} AND p.related_type = 'DOG'
     </select>
 
-    <select id="getUserProfileData" resultMap="userAndDogsResultMap" parameterType="String">
+    <select id="getUserProfileData" resultMap="userResultMap" parameterType="String">
 <!--        select u.user_id, u.user_name, u.user_intro, dd.*-->
 <!--        from user u-->
 <!--        left join (select d.*, p.photo_url, p.photo_no-->
@@ -74,6 +98,20 @@
         join photo p
         on p.related_entity_id = d.dog_no
         where u.user_id = #{username} and  p.related_type = 'DOG'
+    </select>
+
+
+    <select id="getPhotoList" parameterType="long" resultMap="userPhotoListMap" >
+        SELECT *  -- 프로필 피드 가져오기
+        FROM community c
+        JOIN photo p
+        ON c.community_no = p.related_entity_id
+        WHERE c.user_no = #{userNo}
+        AND p.related_type = 'COMMUNITY'
+        AND p.photo_no = ( SELECT MIN(p2.photo_no)  -- 첫번째 사진을 가져오기
+        FROM photo p2
+        WHERE p2.related_entity_id = c.community_no
+        AND p2.related_type = 'COMMUNITY')
     </select>
 
 </mapper>

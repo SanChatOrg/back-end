@@ -29,6 +29,8 @@ public class FollowController {
 
         int userNo = userService.getUserNo(userId);
 
+        System.out.println(followService.getFollowList(userNo));
+
         return followService.getFollowList(userNo);
     }
 

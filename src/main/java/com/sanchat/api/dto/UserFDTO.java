@@ -16,14 +16,9 @@ public class UserFDTO {
 
     private Long userNo;
     private String userName;
-    private LocalDate userBirth;
     private String userId;
-    private String userPw;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
     private String userIntro;
-    private PhotoDTO photo;
-    private List<DogDTO> dogList;
-
     private Boolean isFollowed;
+
+    private PhotoDTO photo;
 }
