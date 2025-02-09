@@ -20,6 +20,11 @@ public class WalkServiceImpl implements WalkService {
     }
 
     @Override
+    public List<WalkDTO> walkList() {
+        return List.of();
+    }
+
+    @Override
     public List<WalkDTO> getAllWalk() {
 
 //        return walkMapper.getAllWalk();
