@@ -105,6 +105,4 @@ public class CommunityController {
     public ResponseEntity<CommunityLikeDTO> likePost(@PathVariable("communityNo") Long communityNo,
                                                      @PathVariable("userNo") Long userNo) {
         return ResponseEntity.ok(communityService.likePost(communityNo, userNo));
-    }
-
 }

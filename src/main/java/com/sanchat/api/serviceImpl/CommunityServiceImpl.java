@@ -9,6 +9,7 @@ import com.sanchat.api.mapper.PhotoMapper;
 import com.sanchat.api.service.CloudinaryService;
 import com.sanchat.api.service.CommunityService;
 import com.sanchat.api.service.PhotoService;
+import com.sanchat.api.util.CloudinaryUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -178,6 +179,7 @@ public class CommunityServiceImpl implements CommunityService {
         });
         return communityList;
     }
+
 
     @Override
     public CommunityLikeDTO likePost(Long communityNo, Long userNo) {

@@ -20,5 +20,4 @@ public class CommunityReplyDTO {
 
     private String userName;
     private String profilePhoto;
-
 }

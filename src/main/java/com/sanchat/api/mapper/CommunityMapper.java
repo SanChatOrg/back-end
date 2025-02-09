@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import java.util.List;
+
 @Mapper
 public interface CommunityMapper {
     void newPost(CommunityDTO communityDTO);
