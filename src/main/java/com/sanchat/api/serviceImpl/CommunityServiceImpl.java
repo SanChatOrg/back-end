@@ -1,7 +1,7 @@
 package com.sanchat.api.serviceImpl;
 
-import com.cloudinary.utils.ObjectUtils;
 import com.sanchat.api.dto.CommunityDTO;
+import com.sanchat.api.dto.CommunityLikeDTO;
 import com.sanchat.api.dto.CommunityReplyDTO;
 import com.sanchat.api.dto.PhotoDTO;
 import com.sanchat.api.mapper.CommunityMapper;
@@ -9,7 +9,6 @@ import com.sanchat.api.mapper.PhotoMapper;
 import com.sanchat.api.service.CloudinaryService;
 import com.sanchat.api.service.CommunityService;
 import com.sanchat.api.service.PhotoService;
-import com.sanchat.api.util.CloudinaryUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -131,7 +128,9 @@ public class CommunityServiceImpl implements CommunityService {
                 .build();
         communityMapper.newReply(communityReplyDTO);
 
-        System.out.println(communityNo + "번 게시글 작성자 " + userNo + "번 댓글 업로드 완료: " + replyContent);
+        communityMapper.plusReplyCnt(communityNo);
+
+        System.out.println(communityNo + "번 게시글 작성자" + userNo + " 댓글 업로드 완료: " + replyContent);
         return communityReplyDTO;
     }
 
@@ -152,6 +151,10 @@ public class CommunityServiceImpl implements CommunityService {
                 .deletedAt(LocalDateTime.now())
                 .build();
         communityMapper.deleteReply(communityReplyDTO);
+
+        communityMapper.minusReplyCnt(communityNo);
+
+        System.out.println(communityNo + "번 게시글 " + replyNo + "번 댓글 삭제 완료");
         return communityReplyDTO;
     }
 
@@ -167,8 +170,8 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public List<CommunityDTO> getAllPost() {
-        List<CommunityDTO> communityList = communityMapper.getAllPost();
+    public List<CommunityDTO> getAllPost(Long userNo) {
+        List<CommunityDTO> communityList = communityMapper.getAllPost(userNo);
         communityList.forEach(dto -> {
             List<PhotoDTO> photoList = photoService.getImageList("COMMUNITY", dto.getCommunityNo());
             dto.setPhotoList(photoList);
@@ -176,5 +179,37 @@ public class CommunityServiceImpl implements CommunityService {
         return communityList;
     }
 
+    @Override
+    public CommunityLikeDTO likePost(Long communityNo, Long userNo) {
+        Optional<CommunityLikeDTO> existingLike = communityMapper.getLike(communityNo, userNo);
+        CommunityLikeDTO result;
+
+        if (existingLike.isPresent()) {
+            CommunityLikeDTO currentLike = existingLike.get();
+            String newLikeStatus = "y".equals(currentLike.getIsLiked()) ? "n" : "y";
+
+            CommunityLikeDTO updateLike = CommunityLikeDTO.builder()
+                    .likeNo(currentLike.getLikeNo())
+                    .isLiked(newLikeStatus)
+                    .userNo(userNo)
+                    .communityNo(communityNo)
+                    .build();
+            communityMapper.updateLike(updateLike);
+            result = updateLike;
+        } else {
+            CommunityLikeDTO newLike = CommunityLikeDTO.builder()
+                    .createdAt(LocalDateTime.now())
+                    .isLiked("y")
+                    .userNo(2L) // 테스트 용도
+                    .communityNo(communityNo)
+                    .build();
+            communityMapper.insertLike(newLike);
+            result = newLike;
+        }
+
+        communityMapper.updateLikeCount(communityNo);
+
+        return result;
+    }
 
 }

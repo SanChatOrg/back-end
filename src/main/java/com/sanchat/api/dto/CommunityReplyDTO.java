@@ -17,4 +17,8 @@ public class CommunityReplyDTO {
     private String replyDeleted;
     private Long communityNo;
     private Long userNo;
+
+    private String userName;
+    private String profilePhoto;
+
 }

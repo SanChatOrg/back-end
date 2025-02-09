@@ -1,6 +1,7 @@
 package com.sanchat.api.service;
 
 import com.sanchat.api.dto.CommunityDTO;
+import com.sanchat.api.dto.CommunityLikeDTO;
 import com.sanchat.api.dto.CommunityReplyDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,5 +25,9 @@ public interface CommunityService {
 
     CommunityDTO deletePost(Long communityNo);
 
-    List<CommunityDTO> getAllPost();
+    List<CommunityDTO> getAllPost(Long userNo);
+
+    CommunityLikeDTO likePost(Long communityNo, Long userNo);
+
+
 }
