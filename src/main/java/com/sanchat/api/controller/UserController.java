@@ -46,10 +46,10 @@ public class UserController {
         return userService.getDogList(userId);
     }
 
-    @GetMapping("/socketList")
-    public Map<String, UserMDTO> getSocketList() {
-        return mapWebSocketHandler.getSocketList();
-    }
+//    @GetMapping("/socketList")
+//    public Map<String, UserMDTO> getSocketList() {
+//        return mapWebSocketHandler.getSocketList();
+//    }
 
     @GetMapping("/getPhotoList")
     public List<CommunityDTO> getPhotoList(@RequestParam String userId){
