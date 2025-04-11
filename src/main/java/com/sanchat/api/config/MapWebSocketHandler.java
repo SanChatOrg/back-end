@@ -115,7 +115,7 @@ public class MapWebSocketHandler extends TextWebSocketHandler {
         userMDTO.setLongitude(Double.parseDouble(longitude));
 
         // 사용자 정보를 userList(Map) 에 저장
-        userList.put(userId, userMDTO);
+        userList.put(session.getId(), userMDTO);
 
         System.out.println(id +" :: " + userId + " 님의 위치 정보 | " +latitude + " | " +longitude + type );
 
@@ -124,7 +124,7 @@ public class MapWebSocketHandler extends TextWebSocketHandler {
         switch(type) {
             case "CLOSE" :
                 CLIENTS.remove(session.getId());
-                System.out.println(id + " :: 접속 종료");
+                userList.remove(session.getId());
                 break;
             default:
                 break;
@@ -170,6 +170,7 @@ public class MapWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
         CLIENTS.remove(session.getId());
+        userList.remove(session.getId());
     }
 
     /**

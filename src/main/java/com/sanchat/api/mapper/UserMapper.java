@@ -1,8 +1,6 @@
 package com.sanchat.api.mapper;
 
-import com.sanchat.api.dto.CommunityDTO;
-import com.sanchat.api.dto.DogDTO;
-import com.sanchat.api.dto.UserDTO;
+import com.sanchat.api.dto.*;
 import org.apache.catalina.User;
 import org.apache.ibatis.annotations.*;
 
@@ -14,6 +12,14 @@ public interface UserMapper {
     @Options(useGeneratedKeys = true, keyProperty = "userNo")
     void createUser(@Param("user") UserDTO userDTO);
 
+    @Insert("insert into user(user_name, user_birth, user_id, user_pw) values ('안녕', '2020-01-30', #{userId}, #{password})")
+    Long createUserM(MemberDto dto);
+
+    @Select("select * from user where user_id = #{userId}")
+    MemberPwDto getUserInfo(String userId);
+
+    @Update("update set pw ")
+    void updatePassword(String pw);
 
     UserDTO getUserProfileData(String username);
     UserDTO getUser(long userNo);

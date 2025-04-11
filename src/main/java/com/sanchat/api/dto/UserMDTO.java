@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 public class UserMDTO {
 
+
     private Long userNo;
     private String userName;
     private LocalDate userBirth;
