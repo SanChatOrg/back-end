@@ -56,8 +56,8 @@ public class SecurityConfig {
         ////  권한 규칙 작성
         // Spring Security 5.x 예시
         http.authorizeRequests()
-                .antMatchers(AUTH_WHITELIST).permitAll()
-                .anyRequest().authenticated();
+//                .antMatchers(AUTH_WHITELIST).permitAll()
+                .anyRequest().permitAll();
 
 
         return http.build();

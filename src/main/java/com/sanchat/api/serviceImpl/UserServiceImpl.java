@@ -39,10 +39,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<CommunityDTO> getPhotoList(String username) {
+    public List<CommunityDTO> getPhotoList(String username, int limit, int offset) {
         long userNo = userMapper.getUserNo(username);
-        System.out.println(userMapper.getPhotoList(userNo) + "\n ---------- userPhotoList");
-        return userMapper.getPhotoList(userNo);
+
+        return userMapper.getPhotoList(userNo, limit, offset);
     }
 
 }

@@ -15,6 +15,6 @@ public interface UserService {
 
     List<DogDTO> getDogList(String username);
 
-    List<CommunityDTO> getPhotoList(String username);
+    List<CommunityDTO> getPhotoList(String username, int limit, int offset);
 }
 

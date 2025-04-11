@@ -102,17 +102,20 @@
     </select>
 
 
-    <select id="getPhotoList" parameterType="long" resultMap="userPhotoListMap" >
-        SELECT *  -- 프로필 피드 가져오기
+    <select id="getPhotoList" resultMap="userPhotoListMap" >
+        SELECT *
         FROM community c
+        JOIN (
+        SELECT related_entity_id, MIN(photo_no) AS min_photo_no
+        FROM photo
+        WHERE related_type = 'COMMUNITY'
+        GROUP BY related_entity_id
+        )  f
+        ON c.community_no = f.related_entity_id
         JOIN photo p
-        ON c.community_no = p.related_entity_id
+        ON p.photo_no = f.min_photo_no
         WHERE c.user_no = #{userNo}
-        AND p.related_type = 'COMMUNITY'
-        AND p.photo_no = ( SELECT MIN(p2.photo_no)  -- 첫번째 사진을 가져오기
-        FROM photo p2
-        WHERE p2.related_entity_id = c.community_no
-        AND p2.related_type = 'COMMUNITY')
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
 </mapper>

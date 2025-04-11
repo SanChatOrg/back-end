@@ -5,9 +5,12 @@ import com.sanchat.api.config.MapWebSocketHandler;
 import com.sanchat.api.dto.*;
 import com.sanchat.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,8 +55,12 @@ public class UserController {
 //    }
 
     @GetMapping("/getPhotoList")
-    public List<CommunityDTO> getPhotoList(@RequestParam String userId){
-        return userService.getPhotoList(userId);
+    public List<CommunityDTO> getPhotoList(@RequestParam String userId,
+                                           @RequestParam int page,
+                                           @RequestParam int size
+    ){
+        int offset = page * size;
+        return userService.getPhotoList(userId, size, offset);
     }
 
 /*    @GetMapping("/socketList")

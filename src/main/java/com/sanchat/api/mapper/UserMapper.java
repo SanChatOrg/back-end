@@ -28,5 +28,5 @@ public interface UserMapper {
 
     List<DogDTO> getDogList(String username);
 
-    List<CommunityDTO> getPhotoList(long userNo);
+    List<CommunityDTO> getPhotoList(@Param("userNo")long userNo,  @Param("limit") int limit,   @Param("offset") int offset);
 }
