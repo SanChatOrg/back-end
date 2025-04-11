@@ -3,7 +3,7 @@ package com.sanchat.api.controller;
 import com.sanchat.api.dto.LoginRequestDto;
 import com.sanchat.api.dto.MemberDto;
 import com.sanchat.api.dto.MemberRequestDto;
-import com.sanchat.api.serviceImpl.MemberService;
+import com.sanchat.api.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.Map;
 

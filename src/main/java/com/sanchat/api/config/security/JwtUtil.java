@@ -5,6 +5,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 import com.sanchat.api.dto.CustomUserInfoDto;
+import com.sanchat.api.dto.LoginRequestDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +42,7 @@ public class JwtUtil {
      * @return Access Token String
      */
     public String createAccessToken(CustomUserInfoDto member) {
+        log.info("access member :: " + member.getUserNo());
         return createToken(member, accessTokenExpTime);
     }
 
@@ -52,10 +54,11 @@ public class JwtUtil {
      */
     private String createToken(CustomUserInfoDto member, long expireTime) {
         Claims claims = Jwts.claims();
-        claims.put("id", member.getId());
+        claims.put("userNo", member.getUserNo());
         claims.put("userId", member.getUserId());
-        claims.put("name", member.getName());
+        claims.put("userName", member.getName());
 //        claims.put("role", member.getRole()); //USER, ADMIN
+        log.info("create member :: " + member.getUserNo());
 
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime tokenValidity = now.plusSeconds(expireTime);
@@ -74,8 +77,8 @@ public class JwtUtil {
      * @param token
      * @return User ID
      */
-    public Long getUserId(String token) {
-        return parseClaims(token).get("id", Long.class);
+    public String getId(String token) {
+        return parseClaims(token).get("userId", String.class);
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.sanchat.api.serviceImpl;
+package com.sanchat.api.service;
 
 import java.util.Optional;
 
@@ -52,7 +52,10 @@ public class MemberService {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
 
-        CustomUserInfoDto info = modelMapper.map(member, CustomUserInfoDto.class);
+//        CustomUserInfoDto info = modelMapper.map(member, CustomUserInfoDto.class);
+        CustomUserInfoDto info = new CustomUserInfoDto();
+        info.setUserId(dtoM.getUserId());
+        info.setUserNo(dtoM.getUserNo());
         return jwtUtil.createAccessToken(info);
     }
 
